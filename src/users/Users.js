@@ -2,29 +2,39 @@ import React, { Component } from 'react'
 import User from './User'
 
 class Users extends Component {
+
+  state = {
+    users: [
+      { name : 'Alain', age : 10 },
+      { name : 'Roger', age : 20 },
+      { name : 'Jean', age : 30 }
+    ]
+  }
+
+  makeMeYounger = () => {
+    const newState = this.state.users.map((user) => {
+      const tmpUser = user
+      tmpUser.age -= 1
+      return tmpUser
+    })
+
+    this.setState({
+      newState
+    })
+  }
+
   render() {
-    if(this.props.groupe==='Fedora') {
+    //console.log(this.props);
       return (
         <div>
+          <button onClick={this.makeMeYounger}>Make me younger</button>
           <h1>{ this.props.children } </h1>
           <h2>{ this.props.groupe} </h2>
-          <User name='Alain' age='20'> enfant 1 </User>
-          <User name='Jean' age='30'>enfant 2 </User>
-          <User name='Roger'>enfant 2 </User>
+          {this.state.users.map((user) => {
+            return <User name={user.name} age={user.age}></User>
+          })}
         </div>
       )
-    } else if (this.props.groupe==='CentOS') {
-      return (
-        <div>
-        <h1>{ this.props.children } </h1>
-        <h2>{ this.props.groupe} </h2>
-        <User name='Paul' age='20'> enfant 1 </User>
-        <User name='Pierre' age='30'>enfant 2 </User>
-        <User name='Jacques'>enfant 2 </User>
-      </div>
-    )
     }
-  }
 }
-
 export default Users

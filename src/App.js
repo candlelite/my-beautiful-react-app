@@ -5,9 +5,7 @@ function App() {
   return (
     <div className="App">
       <Users groupe='Fedora'>Users List</Users>
-      <Users groupe='CentOS'>Users List</Users>
     </div>
   );
 }
-
 export default App;
