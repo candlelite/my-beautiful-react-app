@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import Users from './users/Users'
+import Child from './components/parentToChild/Child'
+import Parent from './components/parentToChild/Parent'
 import './App.css'
 
 class App extends Component {
 
   state = {
-    name: "Fred"
+    name: "Fred",
+    title: "Change The world"
   }
 
   changeName = (newName) => {
@@ -20,6 +23,12 @@ class App extends Component {
     })
   }
 
+  changeTheWorld = (WhatisChanged) => {
+    this.setState({
+      title: WhatisChanged
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -31,6 +40,10 @@ class App extends Component {
         <br/><br/>
         <input type='text' onChange={this.changeNameFromInput} value={this.state.name}></input>
         <h3>{ this.state.name }</h3>
+        <br/><br/>
+        <Child title={this.state.title} doWhatEver={this.changeTheWorld.bind(this, 'A better world')}></Child>
+        <br/>
+        <Parent title={this.state.title} doWhatEver={this.changeTheWorld.bind(this, 'A NEW world')}></Parent>
       </div>
     );
   }
