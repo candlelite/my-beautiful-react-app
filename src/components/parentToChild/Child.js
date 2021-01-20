@@ -2,8 +2,6 @@ import React from 'react'
 
 const Child = (props) => {
 
-  console.log("Child : " + props)
-
   return (
     <div>
       <button onClick={props.doWhatEver}>{props.title}</button>

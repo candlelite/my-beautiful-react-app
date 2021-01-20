@@ -3,11 +3,10 @@ import Child from './Child'
 
 const Parent = (props) => {
 
-  console.log("Parent : " + props)
-
   return (
     <div>
-      <Child {...props}/>
+      <Child doWhatEver = {props.changeTheWorldEvent} title={props.title}></Child>
+      <Child doWhatEver = {props.newTheWorldEvent} title={props.title}></Child>
     </div>
   )
 }
