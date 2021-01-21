@@ -16,6 +16,8 @@ class App extends Component {
       this.state = {
         name: "Fred",
         title: "Change The world",
+        newMember :"",
+        ageNewMember: '',
 
         members: [
           {id: this.nextUniqueId(), firstname: 'Thierry', age:'32'},
@@ -47,6 +49,24 @@ class App extends Component {
     const members = Object.assign([], this.state.members)
     members.splice(index,1)
     this.setState({members: members})
+  }
+
+  changeNewMemberField = (e) => {
+    this.setState ({
+      newMember: e.target.value
+    })
+  }
+
+  changeNewMemberAgeField = (e) => {
+    this.setState ({
+      ageNewMember: e.target.value
+    })
+  }
+
+  addNewMember = (newMember, ageNewMember) => {
+    const members = Object.assign([], this.state.members)
+    members.push({id: Math.floor(Math.random()*100000000000000) , firstname: newMember, age: ageNewMember })
+    this.setState({members: members, newMember:"", ageNewMember: '',})
   }
 
   changeEvent = (id, e) => {
@@ -90,6 +110,7 @@ class App extends Component {
             return (
               <Member
                 key={member.id}
+                id={member.id}
                 age={member.age}
                 delEvent={this.delEvent.bind(this, index)}
                 changeEvent={this.changeEvent.bind(this, member.id)}
@@ -98,6 +119,13 @@ class App extends Component {
               </Member>
             )
           })}
+          <li><span>
+          {this.state.newMember} &nbsp;
+          <input type='text' onChange={this.changeNewMemberField} value={this.state.newMember}></input>
+          {this.state.ageNewMember} &nbsp;
+          <input type='text' onChange={this.changeNewMemberAgeField} value={this.state.ageNewMember}></input>
+          <button onClick={this.addNewMember.bind(this, this.state.newMember, this.state.ageNewMember)}>Add new member</button>
+          </span></li>
         </ul>
       </div>
     );
