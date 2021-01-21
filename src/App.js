@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+//$> npm i react-html-id
+import uniqueId from 'react-html-id';
 import Users from './users/Users'
 import Parent from './components/parentToChild/Parent'
 import Member from './components/Member'
@@ -7,15 +9,20 @@ import './App.css'
 
 class App extends Component {
 
-  state = {
-    name: "Fred",
-    title: "Change The world",
+  constructor() {
+      super()
+      uniqueId.enableUniqueIds(this)
 
-    members: [
-      {id: 'aaa', firstname: 'Thierry', age:'32'},
-      {id: 'bbb', firstname: 'Paul', age:'40'},
-      {id: 'ccc', firstname: 'Isabelle', age:'25'}
-    ]
+      this.state = {
+        name: "Fred",
+        title: "Change The world",
+
+        members: [
+          {id: this.nextUniqueId(), firstname: 'Thierry', age:'32'},
+          {id: this.nextUniqueId(), firstname: 'Paul', age:'40'},
+          {id: this.nextUniqueId(), firstname: 'Isabelle', age:'25'}
+        ]
+      }
   }
 
   changeName = (newName) => {
