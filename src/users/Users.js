@@ -5,9 +5,9 @@ class Users extends Component {
 
   state = {
     users: [
-      { name : 'Alain', age : 10 },
-      { name : 'Roger', age : 20 },
-      { name : 'Jean', age : 30 }
+      { id: 'A', name : 'Alain', age : 10 },
+      { id: 'B', name : 'Roger', age : 20 },
+      { id: 'C', name : 'Jean', age : 30 }
     ]
   }
 
@@ -31,7 +31,7 @@ class Users extends Component {
           <h1>{ this.props.children } </h1>
           <h2>{ this.props.groupe} </h2>
           {this.state.users.map((user) => {
-            return <User name={user.name} age={user.age}></User>
+            return <User key={user.id} name={user.name} age={user.age}></User>
           })}
         </div>
       )
