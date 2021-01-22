@@ -4,6 +4,7 @@ import uniqueId from 'react-html-id';
 import Users from './users/Users'
 import Parent from './components/parentToChild/Parent'
 import Member from './components/Member'
+import ChildX from './components/ChildX'
 
 import './App.css'
 
@@ -11,6 +12,8 @@ class App extends Component {
 
   constructor() {
       super()
+      console.log('App Component constructor() says COUCOU')
+
       uniqueId.enableUniqueIds(this)
 
       this.state = {
@@ -25,6 +28,29 @@ class App extends Component {
           {id: this.nextUniqueId(), firstname: 'Isabelle', age:'25'}
         ]
       }
+  }
+
+  // componentWillMount() is deprecated
+  // componentWillReceiveProps() is deprecated
+  // shouldComponentUpdate() is deprecated - Voir getDerivedStateFromProps
+  // componentWillUpdate() is deprecated
+
+  componentDidMount() {
+    console.log('App Component componentDidMount() says COUCOU')
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('App Component componentDidUpdate() says COUCOU')
+    console.log('App prevProps', prevProps)
+    console.log('App prevState', prevState)
+  }
+
+  componentWillUnmount() {
+    console.log('App Component componentWillUnmount() says COUCOU')
+  }
+
+  unmountChildX() {
+    this.setState ({name: 'unMount'})
   }
 
   changeName = (newName) => {
@@ -89,6 +115,10 @@ class App extends Component {
   }
 
   render() {
+    console.log('App Component render() says COUCOU')
+    if(this.state.name === 'unMount') {
+      return (<div/>)
+    }
     return (
       <div className="App">
         <br/><br/>
@@ -127,6 +157,9 @@ class App extends Component {
           <button onClick={this.addNewMember.bind(this, this.state.newMember, this.state.ageNewMember)}>Add new member</button>
           </span></li>
         </ul>
+        <br/><br/>
+        <ChildX name = {this.state.name}></ChildX>
+        <button onClick={this.unmountChildX.bind(this)}>Test unmount ChlidX</button>
       </div>
     );
   }
