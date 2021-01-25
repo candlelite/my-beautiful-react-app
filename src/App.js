@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+//$> npm i react-router-dom
+import { BrowserRouter as Router, NavLink, Redirect, Prompt } from 'react-router-dom'
+import Route from 'react-router-dom/Route'
 //$> npm i react-html-id
 import uniqueId from 'react-html-id';
 import Users from './users/Users'
@@ -7,6 +10,14 @@ import Member from './components/Member'
 import ChildX from './components/ChildX'
 
 import './App.css'
+
+
+const Profile = ({match}) => {
+  console.log(match)
+  return (
+    <h1>Welcome to my profile page {match.params.profilename}</h1>
+  )
+}
 
 class App extends Component {
 
@@ -26,8 +37,16 @@ class App extends Component {
           {id: this.nextUniqueId(), firstname: 'Thierry', age:'32'},
           {id: this.nextUniqueId(), firstname: 'Paul', age:'40'},
           {id: this.nextUniqueId(), firstname: 'Isabelle', age:'25'}
-        ]
+        ],
+
+        loggedIn: false,
       }
+  }
+
+  loginHandle = () => {
+    this.setState(prevState => ({
+     loggedIn: !prevState.loggedIn
+    }))
   }
 
   // componentWillMount() is deprecated
@@ -119,8 +138,53 @@ class App extends Component {
     if(this.state.name === 'unMount') {
       return (<div/>)
     }
+
     return (
+      <Router>
       <div className="App">
+
+        <ul>
+          <li>
+            <NavLink to="/" exact activeStyle={
+              { color:'green' }
+            }>Home</NavLink>
+          </li>
+          <li>
+            <NavLink to="/about" exact activeStyle={
+              { color:'green' }
+            }>About</NavLink>
+          </li>
+          <li>
+            <NavLink to="/profile/john" exact activeStyle={
+              { color:'green' }
+            }>User John</NavLink>
+          </li>
+          <li>
+            <NavLink to="/profile/peter" exact activeStyle={
+              { color:'green' }
+            }>User Peter</NavLink>
+          </li>
+        </ul>
+        <Prompt
+          when={!this.state.loggedIn}
+          message={(location)=>{
+             return location.pathname.startsWith('/profile') ? 'Are you sure?' : true
+           }}
+        />
+        <input type="button" value={this.state.loggedIn ? 'log out': 'log in'} onClick={this.loginHandle.bind(this)}/>
+
+        <Route path="/" exact strict render={
+          () => {
+            return ( <h1>Welcome Home</h1>);
+          }
+        }/>
+        <Route path="/about" exact strict render={
+          () => {
+            return ( <h1>About</h1>);
+          }
+        }/>
+        <Route path="/profile/:profilename" exact strict component={Profile}/>
+
         <br/><br/>
         <Users groupe='Fedora'>Users List</Users>
         <br/><br/>
@@ -161,6 +225,7 @@ class App extends Component {
         <ChildX name = {this.state.name}></ChildX>
         <button onClick={this.unmountChildX.bind(this)}>Test unmount ChlidX</button>
       </div>
+      </Router>
     );
   }
 }
