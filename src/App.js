@@ -8,6 +8,8 @@ import Users from './users/Users'
 import Parent from './components/parentToChild/Parent'
 import Member from './components/Member'
 import ChildX from './components/ChildX'
+import FormProf from './components/FormProf'
+
 
 import './App.css'
 
@@ -160,6 +162,11 @@ class App extends Component {
               { color:'green' }
             }>Profile Peter</NavLink>
           </li>
+          <li>
+            <NavLink to="/formprof" exact activeStyle={
+              { color:'green' }
+            }>Ref</NavLink>
+          </li>
         </ul>
         <Prompt
           when={!this.state.loggedIn}
@@ -182,6 +189,7 @@ class App extends Component {
         <Route path="/profile/:profilename" exact strict render={({match})=>(
           this.state.loggedIn ? ( <Profile profilename={match.params.profilename}/>) : (<Redirect to='/' />)
         )}/>
+      <Route path="/formprof" exact strict component={FormProf}/>
 
         <br/><br/>
         <Users groupe='Fedora'>Users List</Users>
