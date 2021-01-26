@@ -11,12 +11,8 @@ import ChildX from './components/ChildX'
 
 import './App.css'
 
-
-const Profile = ({match}) => {
-  console.log(match)
-  return (
-    <h1>Welcome to my profile page {match.params.profilename}</h1>
-  )
+const Profile = (params) => {
+  return ( <h1> Welcome Profile {params.profilename} </h1>)
 }
 
 class App extends Component {
@@ -157,12 +153,12 @@ class App extends Component {
           <li>
             <NavLink to="/profile/john" exact activeStyle={
               { color:'green' }
-            }>User John</NavLink>
+            }>Profile John</NavLink>
           </li>
           <li>
             <NavLink to="/profile/peter" exact activeStyle={
               { color:'green' }
-            }>User Peter</NavLink>
+            }>Profile Peter</NavLink>
           </li>
         </ul>
         <Prompt
@@ -183,7 +179,9 @@ class App extends Component {
             return ( <h1>About</h1>);
           }
         }/>
-        <Route path="/profile/:profilename" exact strict component={Profile}/>
+        <Route path="/profile/:profilename" exact strict render={({match})=>(
+          this.state.loggedIn ? ( <Profile profilename={match.params.profilename}/>) : (<Redirect to='/' />)
+        )}/>
 
         <br/><br/>
         <Users groupe='Fedora'>Users List</Users>
