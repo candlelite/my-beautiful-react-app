@@ -75,3 +75,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 #// ./node_modules/.bin/flow init (dans le terminal)
 #// ensuite parametrer le fichier “.flowconfig”
 #// ./node_modules/.bin/flow (dans le terminal) pour lancer Flow et voir s'il y a des erreurs.
+
+# pour créer un projet avec typeScript directement inclus
+# create-react-app my-app --scripts-version=react-scripts-ts
+
+# on peut aussi l'installer en cours : //$> npm install typescript
