@@ -9,7 +9,7 @@ import Parent from './components/parentToChild/Parent'
 import Member from './components/Member'
 import ChildX from './components/ChildX'
 import FormProf from './components/FormProf'
-
+import ButtonOne from './components/ButtonOne'
 
 import './App.css'
 
@@ -139,6 +139,7 @@ class App extends Component {
 
     return (
       <Router>
+      <ButtonOne disable/>
       <div className="App">
 
         <ul>
