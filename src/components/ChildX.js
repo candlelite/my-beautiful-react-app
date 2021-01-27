@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 
-class ChildX extends Component {
+type TestProps = {
+  name: bool
+}
+
+class ChildX extends Component<TestProps> {
 
   constructor() {
     super()

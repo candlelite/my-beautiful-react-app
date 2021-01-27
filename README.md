@@ -68,3 +68,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+#//$> npm install flow-bin --also=dev
+#// il faut aussi ajouter la ligne ci-dessous dans la rubrique script de package.json
+#// "flow": "flow"
+#// ./node_modules/.bin/flow init (dans le terminal)
+#// ensuite parametrer le fichier “.flowconfig”
+#// ./node_modules/.bin/flow (dans le terminal) pour lancer Flow et voir s'il y a des erreurs.
