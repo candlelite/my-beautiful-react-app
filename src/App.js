@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 //$> npm i react-router-dom
 import { BrowserRouter as Router, NavLink, Redirect, Prompt } from 'react-router-dom'
 import Route from 'react-router-dom/Route'
@@ -26,7 +27,6 @@ class App extends Component {
       uniqueId.enableUniqueIds(this)
 
       this.state = {
-        name: "Fred",
         title: "Change The world",
         newMember :"",
         ageNewMember: '',
@@ -66,22 +66,8 @@ class App extends Component {
     console.log('App Component componentWillUnmount() says COUCOU')
   }
 
-  unmountChildX() {
-    this.setState ({name: 'unMount'})
-  }
-
-  changeName = (newName) => {
-    this.setState ({
-      // Il faut dupliquer le state avant de le modifier
-      ...this.state,
-      name: newName
-    })
-  }
-
   changeNameFromInput = (event) => {
-    this.setState ({
-      name: event.target.value
-    })
+    this.props.changeName(event.target.value)
   }
 
   changeTheWorld = (WhatisChanged) => {
@@ -135,7 +121,7 @@ class App extends Component {
 
   render() {
     console.log('App Component render() says COUCOU')
-    if(this.state.name === 'unMount') {
+    if(this.props.name === 'unMount') {
       return (<div/>)
     }
 
@@ -197,11 +183,11 @@ class App extends Component {
         <br/><br/>
         <Users groupe='Fedora'>Users List</Users>
         <br/><br/>
-        <button onClick={() => this.changeName("Super Fred :(")}>Change name using annon function</button>
-        <button onClick={this.changeName.bind(this, "Super Fred :)")}>Change name using bind function</button>
+        <button onClick={() => this.props.changeName("Super Fred :(")}>Change name using annon function</button>
+        <button onClick={this.props.changeName.bind(this, "Super Fred :)")}>Change name using bind function</button>
         <br/><br/>
-        <input type='text' onChange={this.changeNameFromInput} value={this.state.name}></input>
-        <h3>{ this.state.name }</h3>
+        <input type='text' onChange={this.changeNameFromInput} value={this.props.name}></input>
+        <h3>{ this.props.name }</h3>
         <br/><br/>
         <Parent
           title={this.state.title}
@@ -231,11 +217,22 @@ class App extends Component {
           </span></li>
         </ul>
         <br/><br/>
-        <ChildX name = {this.state.name}></ChildX>
-        <button onClick={this.unmountChildX.bind(this)}>Test unmount ChlidX</button>
+        <ChildX name = {this.props.name}></ChildX>
+        <button onClick={this.props.changeName.bind(this,"unMount")}>Test unmount ChlidX</button>
       </div>
       </Router>
     );
   }
 }
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    name: state.name
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeName: (newName) => dispatch({type:'CHANGE_NAME', val:newName})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (App);
