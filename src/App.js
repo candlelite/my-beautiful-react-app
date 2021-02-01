@@ -72,6 +72,8 @@ class App extends Component {
 
   changeName = (newName) => {
     this.setState ({
+      // Il faut dupliquer le state avant de le modifier
+      ...this.state,
       name: newName
     })
   }
@@ -196,7 +198,7 @@ class App extends Component {
         <Users groupe='Fedora'>Users List</Users>
         <br/><br/>
         <button onClick={() => this.changeName("Super Fred :(")}>Change name using annon function</button>
-        <button onClick={this.changeName.bind(this, "Super Fred :)")}>Change name using bien function</button>
+        <button onClick={this.changeName.bind(this, "Super Fred :)")}>Change name using bind function</button>
         <br/><br/>
         <input type='text' onChange={this.changeNameFromInput} value={this.state.name}></input>
         <h3>{ this.state.name }</h3>
