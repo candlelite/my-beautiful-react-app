@@ -231,7 +231,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeName: (newName) => dispatch({type:'CHANGE_NAME', val:newName})
+    changeName: (newName) => dispatch({type:'CHANGE_NAME', value:newName})
   }
 }
 
