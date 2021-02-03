@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 //$> npm i react-router-dom
 import { BrowserRouter as Router, NavLink, Redirect, Prompt } from 'react-router-dom'
 import Route from 'react-router-dom/Route'
-//$> npm i react-html-id
-import uniqueId from 'react-html-id';
 import Users from './users/Users'
 import Parent from './components/parentToChild/Parent'
 import Member from './components/Member'
@@ -22,22 +20,10 @@ class App extends Component {
 
   constructor() {
       super()
-      console.log('App Component constructor() says COUCOU')
-
-      uniqueId.enableUniqueIds(this)
-
+      //console.log('App Component constructor() says COUCOU')
       this.state = {
         title: "Change The world",
-        newMember :"",
-        ageNewMember: '',
-
-        members: [
-          {id: this.nextUniqueId(), firstname: 'Thierry', age:'32'},
-          {id: this.nextUniqueId(), firstname: 'Paul', age:'40'},
-          {id: this.nextUniqueId(), firstname: 'Isabelle', age:'25'}
-        ],
-
-        loggedIn: false,
+        loggedIn: false
       }
   }
 
@@ -53,17 +39,17 @@ class App extends Component {
   // componentWillUpdate() is deprecated
 
   componentDidMount() {
-    console.log('App Component componentDidMount() says COUCOU')
+    //console.log('App Component componentDidMount() says COUCOU')
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('App Component componentDidUpdate() says COUCOU')
-    console.log('App prevProps', prevProps)
-    console.log('App prevState', prevState)
+    //console.log('App Component componentDidUpdate() says COUCOU')
+    //console.log('App prevProps', prevProps)
+    //console.log('App prevState', prevState)
   }
 
   componentWillUnmount() {
-    console.log('App Component componentWillUnmount() says COUCOU')
+    //console.log('App Component componentWillUnmount() says COUCOU')
   }
 
   changeNameFromInput = (event) => {
@@ -76,51 +62,8 @@ class App extends Component {
     })
   }
 
-  delEvent = (index) => {
-    const members = Object.assign([], this.state.members)
-    members.splice(index,1)
-    this.setState({members: members})
-  }
-
-  changeNewMemberField = (e) => {
-    this.setState ({
-      newMember: e.target.value
-    })
-  }
-
-  changeNewMemberAgeField = (e) => {
-    this.setState ({
-      ageNewMember: e.target.value
-    })
-  }
-
-  addNewMember = (newMember, ageNewMember) => {
-    const members = Object.assign([], this.state.members)
-    members.push({id: Math.floor(Math.random()*100000000000000) , firstname: newMember, age: ageNewMember })
-    this.setState({members: members, newMember:"", ageNewMember: '',})
-  }
-
-  changeEvent = (id, e) => {
-    //********* Ma méthode pendant l'exercice *****
-    //********* Ma méthode fonctionne *************
-    //let index = this.state.members.findIndex(i => i.id === id)
-    //const members = Object.assign([], this.state.members)
-    //members[index].firstname = e.target.value
-    //this.setState({members: members})
-
-    //******* Le corrigé du prof *******************
-    const index = this.state.members.findIndex((member) => {
-      return member.id === id
-    })
-    const member = Object.assign({}, this.state.members[index])
-    member.firstname = e.target.value
-    const members = Object.assign([], this.state.members)
-    members[index]=member
-    this.setState({members: members})
-  }
-
   render() {
-    console.log('App Component render() says COUCOU')
+    //console.log('App Component render() says COUCOU')
     if(this.props.name === 'unMount') {
       return (<div/>)
     }
@@ -195,25 +138,25 @@ class App extends Component {
           newTheWorldEvent={this.changeTheWorld.bind(this, 'A NEW world')}
         ></Parent>
         <ul>
-          {this.state.members.map((member, index) => {
+          {this.props.members.map((member) => {
             return (
               <Member
                 key={member.id}
                 id={member.id}
                 age={member.age}
-                delEvent={this.delEvent.bind(this, index)}
-                changeEvent={this.changeEvent.bind(this, member.id)}
+                delEvent={this.props.delEvent.bind(this, member.id)}
+                changeEvent={this.props.changeEvent.bind(this, member.id)}
                 >
                 {member.firstname}
               </Member>
             )
           })}
           <li><span>
-          {this.state.newMember} &nbsp;
-          <input type='text' onChange={this.changeNewMemberField} value={this.state.newMember}></input>
-          {this.state.ageNewMember} &nbsp;
-          <input type='text' onChange={this.changeNewMemberAgeField} value={this.state.ageNewMember}></input>
-          <button onClick={this.addNewMember.bind(this, this.state.newMember, this.state.ageNewMember)}>Add new member</button>
+          {this.props.newMember} &nbsp;
+          <input type='text' onChange={this.props.changeNewMemberField} value={this.props.newMember}></input>
+          {this.props.ageNewMember} &nbsp;
+          <input type='text' onChange={this.props.changeNewMemberAgeField} value={this.props.ageNewMember}></input>
+          <button onClick={this.props.addNewMember.bind(this, this.props.newMember, this.props.ageNewMember)}>Add new member</button>
           </span></li>
         </ul>
         <br/><br/>
@@ -226,12 +169,21 @@ class App extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    name: state.name
+    name: state.name,
+    newMember : state.newMember,
+    ageNewMember: state.ageNewMember,
+    members: state.members
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeName: (newName) => dispatch({type:'CHANGE_NAME', value:newName})
+    changeName: (newName) => dispatch({type:'CHANGE_NAME', value:newName}),
+
+    delEvent: (index) => dispatch({type: 'DEL_EVENT', value: index}),
+    changeNewMemberField: (e) => dispatch({type: 'CHANGE_NEW_MEMBER_FIELD', value: e}),
+    changeNewMemberAgeField: (e) => dispatch({type: 'CHANGE_NEW_MEMBER_AGE_FIELD', value: e}),
+    addNewMember: (newMember, ageNewMember) => dispatch({type: 'ADD_NEW_MEMBER'}),
+    changeEvent: (id, e) => dispatch({type: 'CHANGE_EVENT', value:  { id, e }})
   }
 }
 
