@@ -3,13 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+import reducerForMembers from "./store/reducerForMembers";
+import reducerForUsers from "./store/reducerForUsers";
+
 //$> npm i react-redux
 import { Provider } from 'react-redux';
 //$> npm i redux
-import { createStore } from 'redux';
-import reducer from './store/reducer';
+import { createStore, combineReducers } from "redux";
 
-const store = createStore(reducer);
+const rootReducer = combineReducers({
+  rMembers: reducerForMembers,
+  rUsers: reducerForUsers
+});
+
+const store = createStore(rootReducer);
 
 ReactDOM.render(
   <React.StrictMode>
