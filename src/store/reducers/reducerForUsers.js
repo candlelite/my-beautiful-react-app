@@ -5,7 +5,8 @@ const initialState = {
     { id: 'A', name : 'Alain', age : 10 },
     { id: 'B', name : 'Roger', age : 20 },
     { id: 'C', name : 'Jean', age : 30 }
-  ]
+  ],
+  loading: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -25,9 +26,17 @@ const reducer = (state = initialState, action) => {
         })
         return {
           ...state,
-          users: _users
+          users: _users,
+          loading: false
         }
         break;
+        case 'LOADING':
+          return {
+            ...state,
+            loading: true
+          }
+          {console.log("COUCOU")}
+          break;
         default:
         break;
     }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import * as actionCreator from "./store/actions/actions";
 //$> npm i react-router-dom
 import { BrowserRouter as Router, NavLink, Redirect, Prompt } from 'react-router-dom'
 import Route from 'react-router-dom/Route'
@@ -177,13 +178,13 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeName: (newName) => dispatch({type:'CHANGE_NAME', value:newName}),
+    changeName: (newName) => dispatch(actionCreator.changeName(newName)),
 
-    delEvent: (index) => dispatch({type: 'DEL_EVENT', value: index}),
-    changeNewMemberField: (e) => dispatch({type: 'CHANGE_NEW_MEMBER_FIELD', value: e}),
-    changeNewMemberAgeField: (e) => dispatch({type: 'CHANGE_NEW_MEMBER_AGE_FIELD', value: e}),
-    addNewMember: (newMember, ageNewMember) => dispatch({type: 'ADD_NEW_MEMBER'}),
-    changeEvent: (id, e) => dispatch({type: 'CHANGE_EVENT', value:  { id, e }})
+    delEvent: (index) => dispatch(actionCreator.delEvent(index)),
+    changeNewMemberField: (e) => dispatch(actionCreator.changeNewMemberField(e)),
+    changeNewMemberAgeField: (e) => dispatch(actionCreator.changeNewMemberAgeField(e)),
+    addNewMember: () => dispatch(actionCreator.addNewMember()),
+    changeEvent: (id, e) => dispatch(actionCreator.changeEvent(id, e))
   }
 }
 

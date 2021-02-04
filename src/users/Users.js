@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import * as actionCreator from "../store/actions/actions";
+import logo from "../logo.svg";
 import User from './User'
 
 class Users extends Component {
@@ -15,6 +17,7 @@ class Users extends Component {
             {this.props.users.map((user) => {
               return <User key={user.id} name={user.name} age={user.age}></User>
             })}
+            {this.props.loading && <img src={logo} className="App-logo" />}
           </div>
           <div>{ this.props.children }</div>
           {
@@ -30,12 +33,13 @@ class Users extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.rUsers.users
+    users: state.rUsers.users,
+    loading: state.rUsers.loading
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    makeMeYounger: (step) => dispatch({type:'AGE_DOWN', value:step})
+    makeMeYounger: (step) => dispatch(actionCreator.makeMeYounger(step))
   }
 }
 
