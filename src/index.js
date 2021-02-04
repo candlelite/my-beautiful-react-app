@@ -10,14 +10,26 @@ import reducerForUsers from "./store/reducerForUsers";
 //$> npm i react-redux
 import { Provider } from 'react-redux';
 //$> npm i redux
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 
 const rootReducer = combineReducers({
   rMembers: reducerForMembers,
   rUsers: reducerForUsers
 });
 
-const store = createStore(rootReducer);
+const logAction = store => {
+  return next => {
+    return action => {
+      const result = next(action);
+      console.log(
+        `Global State caught in the middleware ${JSON.stringify(store.getState())}`
+      );
+      return result;
+    };
+  };
+};
+
+const store = createStore(rootReducer, applyMiddleware(logAction));
 
 ReactDOM.render(
   <React.StrictMode>
